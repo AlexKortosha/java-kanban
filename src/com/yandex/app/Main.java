@@ -1,21 +1,29 @@
+package com.yandex.app;
+import com.yandex.app.model.Epic;
+import com.yandex.app.model.Task;
+import com.yandex.app.model.SubTask;
+import com.yandex.app.model.TaskStatus;
+
+import com.yandex.app.servise.TaskManager;
+
 public class Main {
     public static void main(String[] args) {
-     TaskManager manager = new TaskManager();
+        TaskManager manager = new TaskManager();
 
         System.out.println("###СОЗДАНИЕ ЗАДАЧ###");
 
-        Task task1 = manager.addTask("Название", "Описание");
-        Task task2 = manager.addTask("Название1", "Описание1");
+        Task task1 = manager.addTask(new Task(0,"Название", "Описание"));
+        Task task2 = manager.addTask(new Task(0,"Название1", "Описание1"));
 
 
-        Epic epic1 = manager.addEpic("Задача1", "Задача2");
+        Epic epic1 = manager.addEpic(new Epic(0,"Задача1", "Задача2"));
 
-        SubTask subtask1 = manager.addSubTask("Подзадача1:", "Описание подзадачи1", epic1.getId());
-        SubTask subtask2 = manager.addSubTask("подзадача2:", "Описание подзадачи2",  epic1.getId());
+        SubTask subtask1 = manager.addSubTask(new SubTask(0,"Подзадача1:", "Описание подзадачи1", epic1.getId()));
+        SubTask subtask2 = manager.addSubTask(new SubTask(0,"подзадача2:", "Описание подзадачи2",  epic1.getId()));
 
 
-        Epic epic2 = manager.addEpic("Задача3", "" );
-        SubTask subtask3 = manager.addSubTask("Подзадача3:", "Описание подзадачи3", epic2.getId());
+        Epic epic2 = manager.addEpic(new Epic(0,"Задача3", "" ));
+        SubTask subtask3 = manager.addSubTask(new SubTask(0,"Подзадача3:", "Описание подзадачи3", epic2.getId()));
 
 
         //ПЕЧАТЬ ЗАДАЧ
