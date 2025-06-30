@@ -35,9 +35,13 @@ public class Epic extends Task {
             if (subtask.getStatus() == TaskStatus.IN_PROGRESS) anyInProgress = true;
         }
 
-        if (allDone) setStatus(TaskStatus.DONE);
-        else if (anyInProgress) setStatus(TaskStatus.IN_PROGRESS);
-        else setStatus(TaskStatus.NEW);
+        if (allDone) {
+            setStatus(TaskStatus.DONE);
+        } else if (anyInProgress) {
+            setStatus(TaskStatus.IN_PROGRESS);
+        } else {
+            setStatus(TaskStatus.NEW);
+        }
     }
 
     @Override
