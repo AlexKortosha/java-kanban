@@ -1,4 +1,4 @@
-package com.yandex.app.servise;
+package com.yandex.app.serviсe;
 
 import com.yandex.app.model.Task;
 import com.yandex.app.model.Epic;
