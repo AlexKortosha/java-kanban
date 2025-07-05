@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Task {
     protected int id;
-    protected String name;                                   //a.m. protected - доступ для классов-наследников (Subtusk/Epic)
+    protected String name;
     protected String description;
     protected TaskStatus status;
 
@@ -60,6 +60,7 @@ public class Task {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
         return id == task.id;
