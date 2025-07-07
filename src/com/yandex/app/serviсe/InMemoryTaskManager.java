@@ -4,16 +4,13 @@ import com.yandex.app.model.Task;
 import com.yandex.app.model.Epic;
 import com.yandex.app.model.SubTask;
 
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 public class InMemoryTaskManager implements TaskManager {
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
+    private final Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, SubTask> subTasks = new HashMap<>();
+    private final Map<Integer, Epic> epics = new HashMap<>();
 
     private final HistoryManager historyManager;
 
@@ -28,7 +25,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Task> getAllTasks() {
-        return new ArrayList<>(tasks.values());
+        return List.copyOf(tasks.values());
     }
 
     @Override
@@ -64,9 +61,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task findTaskById(int id) {
         Task task = tasks.get(id);
-        if (task != null) {
-            historyManager.add(task);
-        }
+        historyManager.add(task);
         return task;
     }
 
@@ -74,7 +69,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<SubTask> getAllSubtasks() {
-        return new ArrayList<>(subTasks.values());
+        return List.copyOf(subTasks.values());
     }
 
     @Override
@@ -157,9 +152,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public SubTask findSubTaskById(int id) {
         SubTask subTask = subTasks.get(id);
-        if (subTask != null) {
-            historyManager.add(subTask);
-        }
+        historyManager.add(subTask);
         return subTask;
     }
 
@@ -209,9 +202,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic findEpicById(int id) {
         Epic epic = epics.get(id);
-        if (epic != null) {
-            historyManager.add(epic);
-        }
+        historyManager.add(epic);
         return epic;
     }
     //NEW FUNCTIONALITY=================================================================================================
