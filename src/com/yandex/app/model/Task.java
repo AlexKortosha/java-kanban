@@ -3,7 +3,7 @@ package com.yandex.app.model;
 import java.util.Objects;
 
 public class Task {
-    protected int id;
+    protected int id;         // id
     protected String name;
     protected String description;
     protected TaskStatus status;
