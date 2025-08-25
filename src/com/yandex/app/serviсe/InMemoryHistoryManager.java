@@ -9,7 +9,11 @@ import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private static final int MAX_HISTORY_SIZE = 10; // константа для размера истории
+
+    private static class Node {
+        Task task;                                                      // задача которую хотим хранить в истории
+        Node prev;                                                      // ссылка на предыдущий узел
+        Node next;                                                      // ссылка на следующий узел
 
         Node(Task task) {
             this.task = task;
