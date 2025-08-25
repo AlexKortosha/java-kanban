@@ -11,6 +11,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private static final int MAX_HISTORY_SIZE = 10; // константа для размера истории
 
+        Node(Task task) {
+            this.task = task;
+        }
+    }
 
     private final List<Task> history = new LinkedList<>(); // LinkedList для удаления сначала списка (Надеюсь так можно:) )
 
