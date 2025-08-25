@@ -34,10 +34,13 @@ public class InMemoryHistoryManager implements HistoryManager {
             return;
         }
 
-        history.addLast(task);
-        if (history.size() > MAX_HISTORY_SIZE) {
-            history.removeFirst();
-        }
+        remove(task.getId());
+
+        Node newNode = new Node(task);
+        linkLast(newNode);
+        historyMap.put(task.getId(), newNode);
+
+
     }
 
     @Override
