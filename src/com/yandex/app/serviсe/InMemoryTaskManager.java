@@ -63,7 +63,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Task findTaskById(int id) {
         Task task = tasks.get(id);
         historyManager.add(task);
-        return task;
+        return new Task(task.getId(), task.getName(), task.getDescription());
     }
 
     // РАЗДЕЛ SUBTASK===================================================================================================
