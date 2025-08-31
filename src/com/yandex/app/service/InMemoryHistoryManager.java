@@ -83,7 +83,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         if (node.next != null) {
             node.next.prev = node.prev;
-        }else {
+        } else {
             tail = node.prev;
         }
 
