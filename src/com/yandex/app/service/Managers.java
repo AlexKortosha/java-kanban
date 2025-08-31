@@ -1,4 +1,4 @@
-package com.yandex.app.serviсe;
+package com.yandex.app.service;
 
 public class Managers {
 
