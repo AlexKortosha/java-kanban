@@ -51,7 +51,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
-        history.remove(id);
+        Node node = historyMap.remove(id);
+        if (node != null) {
+            removeNode(node);
+        }
     }
 
     private void linkLast(Node newNode) {
