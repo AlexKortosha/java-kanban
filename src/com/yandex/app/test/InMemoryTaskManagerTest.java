@@ -76,7 +76,7 @@ class InMemoryTaskManagerTest {
 
     //ПРОВЕРКА НА НЕИЗМЕННОСТЬ ЗАДАЧИ===================================================================================
 
-    
+
     @Test
     void taskShouldRemainUnmodifiedWhenAddedToManager() {
         Task originalTask = new Task(0, "Original", "Original description");
