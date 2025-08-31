@@ -76,8 +76,8 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<SubTask> getSubTasksByEpicId(int epicId) {
         Epic epic = epics.get(epicId);
-        if(epic == null) {
-            System.out.println("Эпик и индификатором " + epicId + " не найден" );
+        if (epic == null) {
+            System.out.println("Эпик и индификатором " + epicId + " не найден");
         }
         return new ArrayList<>(epic.getSubTaskIds().values());
     }
