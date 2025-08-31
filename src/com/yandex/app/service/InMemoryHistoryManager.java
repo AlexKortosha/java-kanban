@@ -20,7 +20,10 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-    private final List<Task> history = new LinkedList<>(); // LinkedList для удаления сначала списка (Надеюсь так можно:) )
+
+    private final Map<Integer, Node> historyMap = new HashMap<>();
+    private Node head;
+    private Node tail;
 
 
     @Override
