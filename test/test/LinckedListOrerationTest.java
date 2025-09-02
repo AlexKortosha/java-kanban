@@ -24,7 +24,16 @@ public class LinckedListOrerationTest {
     }
 
     @Test
-    void testLinkLastAddsToEmptyList() throws Exception {
+    void testAddSingleTask() {
+        historyManager.add(task1);
+        List<Task> history = historyManager.getHistory();
+
+        assertEquals(1, history.size());
+        assertEquals(task1, history.get(0));
+    }
+
+    @Test
+    void testAddMultipleTasks() {
         historyManager.add(task1);
 
         Field headField = InMemoryHistoryManager.class.getDeclaredField("head");
