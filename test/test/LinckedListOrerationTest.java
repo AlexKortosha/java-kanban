@@ -62,7 +62,7 @@ public class LinckedListOrerationTest {
     }
 
     @Test
-    void testRemoveNodeFromSingleElementList() throws Exception {
+    void testRemoveLastTaskResultsInEmptyHistory() {
         historyManager.add(task1);
 
         Field headField = InMemoryHistoryManager.class.getDeclaredField("head");
