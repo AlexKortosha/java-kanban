@@ -76,8 +76,11 @@ public class LinckedListOrerationTest {
         assertTrue(history.isEmpty());
     }
 
-        Object head = headField.get(historyManager);
-        Object tail = tailField.get(historyManager);
+    @Test
+    void testAddingSameTaskMovesItToEnd() {
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task1);
 
         assertNull(head);
         assertNull(tail);
