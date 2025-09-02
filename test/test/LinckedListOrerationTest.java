@@ -44,7 +44,7 @@ public class LinckedListOrerationTest {
     }
 
     @Test
-    void testLinkLastAddsToEnd() throws Exception {
+    void testRemoveTaskFromHistory() {
         historyManager.add(task1);
         historyManager.add(task2);
         historyManager.add(task3);
