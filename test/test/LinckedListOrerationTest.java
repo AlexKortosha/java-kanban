@@ -35,11 +35,8 @@ public class LinckedListOrerationTest {
     @Test
     void testAddMultipleTasks() {
         historyManager.add(task1);
-
-        Field headField = InMemoryHistoryManager.class.getDeclaredField("head");
-        Field tailField = InMemoryHistoryManager.class.getDeclaredField("tail");
-        headField.setAccessible(true);
-        tailField.setAccessible(true);
+        historyManager.add(task2);
+        List<Task> history = historyManager.getHistory();
 
         Object head = headField.get(historyManager);
         Object tail = tailField.get(historyManager);
