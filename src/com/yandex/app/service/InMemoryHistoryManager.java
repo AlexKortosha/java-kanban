@@ -47,8 +47,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         Node newNode = new Node(task);
         linkLast(newNode);
         historyMap.put(task.getId(), newNode);
-
-
     }
 
     @Override
