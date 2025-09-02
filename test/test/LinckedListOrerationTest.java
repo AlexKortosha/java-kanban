@@ -38,12 +38,9 @@ public class LinckedListOrerationTest {
         historyManager.add(task2);
         List<Task> history = historyManager.getHistory();
 
-        Object head = headField.get(historyManager);
-        Object tail = tailField.get(historyManager);
-
-        assertNotNull(head);
-        assertNotNull(tail);
-        assertEquals(head, tail);
+        assertEquals(2, history.size());
+        assertEquals(task1, history.get(0));
+        assertEquals(task2, history.get(1));
     }
 
     @Test
