@@ -61,8 +61,6 @@ public class LinckedListOrerationTest {
         assertEquals(task2, history.get(0));
     }
 
-
-
     @Test
     void testRemoveNodeFromSingleElementList() throws Exception {
         historyManager.add(task1);
