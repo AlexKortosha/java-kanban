@@ -54,8 +54,8 @@ public class LinckedListOrerationTest {
         headField.setAccessible(true);
         tailField.setAccessible(true);
 
-        Object head = headField.get(historyManager);
-        Object tail = tailField.get(historyManager);
+        historyManager.remove(task1.getId());
+        List<Task> history = historyManager.getHistory();
 
         assertNotEquals(head, tail); // Голова и хвост разные
     }
