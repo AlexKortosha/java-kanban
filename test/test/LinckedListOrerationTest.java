@@ -78,6 +78,7 @@ public class LinckedListOrerationTest {
 
         assertEquals(2, history.size());
         assertEquals(task2, history.get(0));
+        assertEquals(task1, history.get(1));
     }
 
 
