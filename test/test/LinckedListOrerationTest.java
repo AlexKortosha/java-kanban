@@ -57,7 +57,8 @@ public class LinckedListOrerationTest {
         historyManager.remove(task1.getId());
         List<Task> history = historyManager.getHistory();
 
-        assertNotEquals(head, tail); // Голова и хвост разные
+        assertEquals(1, history.size());
+        assertEquals(task2, history.get(0));
     }
 
 
