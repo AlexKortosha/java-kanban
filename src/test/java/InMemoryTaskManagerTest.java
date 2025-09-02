@@ -1,4 +1,4 @@
-package test.com.yandex.app;
+package test.java;
 
 import com.yandex.app.model.*;
 import com.yandex.app.service.*;
