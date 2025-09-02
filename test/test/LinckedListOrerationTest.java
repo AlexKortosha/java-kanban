@@ -71,6 +71,10 @@ public class LinckedListOrerationTest {
         tailField.setAccessible(true);
 
         historyManager.remove(task1.getId());
+        List<Task> history = historyManager.getHistory();
+
+        assertTrue(history.isEmpty());
+    }
 
         Object head = headField.get(historyManager);
         Object tail = tailField.get(historyManager);
