@@ -1,4 +1,4 @@
-package com.yandex.app.test;
+package test.com.yandex.app;
 
 import com.yandex.app.model.*;
 import static org.junit.jupiter.api.Assertions.*;
