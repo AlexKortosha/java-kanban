@@ -69,7 +69,7 @@ public class InMemoryTaskManager implements TaskManager {
             return null;
         }
         historyManager.add(task);
-        return new Task(task.getId(), task.getName(), task.getDescription());
+        return task;
     }
 
     // РАЗДЕЛ SUBTASK===================================================================================================
