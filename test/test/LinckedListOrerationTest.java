@@ -64,12 +64,6 @@ public class LinckedListOrerationTest {
     @Test
     void testRemoveLastTaskResultsInEmptyHistory() {
         historyManager.add(task1);
-
-        Field headField = InMemoryHistoryManager.class.getDeclaredField("head");
-        Field tailField = InMemoryHistoryManager.class.getDeclaredField("tail");
-        headField.setAccessible(true);
-        tailField.setAccessible(true);
-
         historyManager.remove(task1.getId());
         List<Task> history = historyManager.getHistory();
 
