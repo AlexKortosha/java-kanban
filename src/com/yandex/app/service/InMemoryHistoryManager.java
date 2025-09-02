@@ -21,8 +21,8 @@ public class InMemoryHistoryManager implements HistoryManager {
 
 
     private final Map<Integer, Node> historyMap = new HashMap<>();
-    private Node head;
-    private Node tail;
+    private final Node head = new Node(null);
+    private final Node tail = new Node(null);
 
 
     @Override
