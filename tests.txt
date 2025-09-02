@@ -1,1 +1,8 @@
-src/com/yandex/java/test/InMemoryTaskManagerTest.java
+./src/test/java/EpicTest.java
+./src/test/java/InMemoryHistoryManagerTest.java
+./src/test/java/InMemoryTaskManagerTest.java
+./src/test/java/LinckedListOrerationTest.java
+./src/test/java/ManagersTest.java
+./src/test/java/TaskMutabilityTest.java
+./src/test/java/TaskSuccessorTest.java
+./src/test/java/TaskTest.java
