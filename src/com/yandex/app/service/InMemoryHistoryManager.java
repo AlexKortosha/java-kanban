@@ -23,6 +23,11 @@ public class InMemoryHistoryManager implements HistoryManager {
     private final Map<Integer, Node> historyMap = new HashMap<>();
     private final Node head = new Node(null);
     private final Node tail = new Node(null);
+    
+    public InMemoryHistoryManager() {
+        head.next = tail;
+        tail.prev = head;
+    }
 
 
     @Override
