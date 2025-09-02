@@ -23,7 +23,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     private final Map<Integer, Node> historyMap = new HashMap<>();
     private final Node head = new Node(null);
     private final Node tail = new Node(null);
-    
+
     public InMemoryHistoryManager() {
         head.next = tail;
         tail.prev = head;
@@ -33,8 +33,8 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public List<Task> getHistory() {
         List<Task> result = new ArrayList<>();
-        Node current = head;
-        while (current != null) {
+        Node current = head.next;
+        while (current != tail) {
             result.add(current.task);
             current = current.next;
         }
