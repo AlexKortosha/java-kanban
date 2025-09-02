@@ -13,7 +13,6 @@ public class LinckedListOrerationTest {
     private InMemoryHistoryManager historyManager;
     private Task task1;
     private Task task2;
-    private Task task3;
 
     @BeforeEach
     void setUp() {
