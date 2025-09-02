@@ -15,7 +15,7 @@ public class TaskMutabilityTest {
     void setUp() {
         taskManager = Managers.getDefault();
         originalTask = new Task(0, "Task", "Description");
-        taskManager.addTask(originalTask);
+        originalTask = taskManager.addTask(originalTask);
     }
 
     @Test
