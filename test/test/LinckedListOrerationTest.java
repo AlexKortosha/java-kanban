@@ -20,7 +20,6 @@ public class LinckedListOrerationTest {
         historyManager = new InMemoryHistoryManager();
         task1 = new Task(1, "Task 1", "Description 1");
         task2 = new Task(2, "Task 2", "Description 2");
-        task3 = new Task(3, "Task 3", "Description 3");
     }
 
     @Test
