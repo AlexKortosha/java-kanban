@@ -51,16 +51,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 Task task = fromString(line);
 
                 if (task instanceof  Epic) {                //instanceof- для проверки экземпляра класса/наследника
-                    super.addEpic((Epic) task);
+                    manager.addEpic((Epic) task);
                 }  else if (task instanceof SubTask) {
-                    super.addSubTask((SubTask) task);
+                    manager.addSubTask((SubTask) task);
                 } else {
-                    super.addTask(task);
+                    manager.addTask(task);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Ошибка при загрузке файла: " + file, e);
         }
+        return manager;
     }
 
     //================================CSV format========================================================================
