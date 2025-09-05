@@ -32,7 +32,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 writer.newLine();
             }
             for (SubTask subTask: getAllSubtasks()) {
-                writer.write(toString());
+                writer.write(toString(subTask));
                 writer.newLine();
             }
         } catch (IOException e) {
