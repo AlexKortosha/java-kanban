@@ -41,7 +41,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     //================================LOAD==============================================================================
-    private void loadFromFile(File file) {
+    private void loadFromFile() {
         if (!file.exists()) {
             return;
         }
