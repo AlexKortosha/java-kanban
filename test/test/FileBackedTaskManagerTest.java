@@ -22,7 +22,9 @@ class FileBackedTaskManagerTest {
 
     @AfterEach
     void cleanUp() {
-        tempFile.delete();
+        if (tempFile.exists()) {
+            tempFile.delete();
+        }
     }
 
     @Test
@@ -31,21 +33,24 @@ class FileBackedTaskManagerTest {
 
         FileBackedTaskManager loaded = FileBackedTaskManager.loadFromFile(tempFile);
 
-        assertTrue(loaded.getAllTasks().isEmpty());
-        assertTrue(loaded.getAllEpics().isEmpty());
-        assertTrue(loaded.getAllSubtasks().isEmpty());
+        assertTrue(loaded.getAllTasks().isEmpty(), "Должно быть пусто для задач");
+        assertTrue(loaded.getAllEpics().isEmpty(), "Должно быть пусто для эпиков");
+        assertTrue(loaded.getAllSubtasks().isEmpty(), "Должно быть пусто для сабтасков");
     }
 
     @Test
     void shouldSaveAndLoadSingleTask() {
         Task task = new Task(0, "Test task", "Desc");
         manager.addTask(task);
+        manager.save();
+
 
         FileBackedTaskManager loaded = FileBackedTaskManager.loadFromFile(tempFile);
 
         List<Task> tasks = loaded.getAllTasks();
-        assertEquals(1, tasks.size());
+        assertEquals(1, tasks.size(), "Должна быть одна задача");
         assertEquals("Test task", tasks.get(0).getName());
+        assertEquals("Desc", tasks.get(0).getDescription());
     }
 
     @Test
@@ -56,14 +61,16 @@ class FileBackedTaskManagerTest {
         SubTask sub = new SubTask(0, "Sub1", "desc", epic.getId());
         manager.addSubTask(sub);
 
+        manager.save();
+
         FileBackedTaskManager loaded = FileBackedTaskManager.loadFromFile(tempFile);
 
         List<Epic> epics = loaded.getAllEpics();
-        assertEquals(1, epics.size());
+        assertEquals(1, epics.size(), "Должен быть один эпик");
         assertEquals("Epic1", epics.get(0).getName());
 
         List<SubTask> subs = loaded.getAllSubtasks();
-        assertEquals(1, subs.size());
+        assertEquals(1, subs.size(), "Должна быть одна подзадача");
         assertEquals("Sub1", subs.get(0).getName());
         assertEquals(epics.get(0).getId(), subs.get(0).getEpicId());
     }
