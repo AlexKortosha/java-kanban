@@ -11,6 +11,8 @@ import java.io.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
 
+    private static final String HEADER_CSV = "id,type,name,status,description,epic";
+
     private final File file;
 
     public FileBackedTaskManager(File file) {
@@ -21,7 +23,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     public void save() {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write("id,type,name,status,description,epic");
+            writer.write(HEADER_CSV);
             writer.newLine();
 
             for (Task task: getAllTasks()) {
