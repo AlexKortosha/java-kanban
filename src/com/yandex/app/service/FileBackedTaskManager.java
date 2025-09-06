@@ -25,15 +25,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             writer.newLine();
 
             for (Task task: getAllTasks()) {
-                writer.write(toString(task));
+                writer.write(task.toString());
                 writer.newLine();
             }
             for (Epic epic: getAllEpics()) {
-                writer.write(toString(epic));
+                writer.write(epic.toString());
                 writer.newLine();
             }
             for (SubTask subTask: getAllSubtasks()) {
-                writer.write(toString(subTask));
+                writer.write(subTask.toString());
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -64,30 +64,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         }
         return manager;
     }
-
-    //================================CSV format========================================================================
-    private static String toString(Task task) {
-        StringBuilder strBuild = new StringBuilder();
-        strBuild.append(task.getId()).append(",");
-        if (task instanceof Epic) {
-            strBuild.append(TaskType.EPIC);
-        } else if (task instanceof SubTask) {
-            strBuild.append(TaskType.SUBTASK);
-        } else {
-            strBuild.append(TaskType.TASK);
-        }
-        strBuild.append(",").append(task.getName());
-        strBuild.append(",").append(task.getStatus());
-        strBuild.append(",").append(task.getDescription());
-
-        if (task instanceof SubTask) {
-            strBuild.append(",").append(((SubTask) task).getEpicId());
-        } else {
-            strBuild.append(",");
-        }
-        return strBuild.toString();
-    }
-
+    
     //================================CREATE TASK FROM STRING===========================================================
     private static Task fromString(String value) {
         String[] fields = value.split(",", -1);
