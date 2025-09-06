@@ -232,7 +232,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     //вспомогательный методы============================================================================================
-    private void validateAndSetId(Task task) {
+    protected void validateAndSetId(Task task) {
 
         if (task == null) {
             System.out.println("Задача не может быть = null");
