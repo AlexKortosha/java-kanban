@@ -26,15 +26,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             writer.write(HEADER_CSV);
             writer.newLine();
 
-            for (Task task: getAllTasks()) {
+            for (Task task : getAllTasks()) {
                 writer.write(task.toString());
                 writer.newLine();
             }
-            for (Epic epic: getAllEpics()) {
+            for (Epic epic : getAllEpics()) {
                 writer.write(epic.toString());
                 writer.newLine();
             }
-            for (SubTask subTask: getAllSubtasks()) {
+            for (SubTask subTask : getAllSubtasks()) {
                 writer.write(subTask.toString());
                 writer.newLine();
             }
@@ -56,16 +56,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 String[] fields = line.split(",");
                 TaskType type = TaskType.valueOf(fields[1]);
 
-                switch (type){
+                switch (type) {
                     case EPIC:
-                    manager.addEpic((Epic) task);
-                    break;
+                        manager.addEpicWithoutSaving((Epic) task);
+                        break;
                     case SUBTASK:
-                    manager.addSubTask((SubTask) task);
-                    break;
+                        manager.addSubTaskWithoutSaving((SubTask) task);
+                        break;
                     case TASK:
-                    manager.addTask(task);
-                    break;
+                        manager.addTaskWithoutSaving(task);
+                        break;
                 }
             }
         } catch (IOException e) {
@@ -73,7 +73,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         }
         return manager;
     }
-    
+
     //================================CREATE TASK FROM STRING===========================================================
     private static Task fromString(String value) {
         String[] fields = value.split(",", -1);
@@ -102,81 +102,26 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         }
     }
 
-    //==============================OVERRIDE METODS=====================================================================
-
-
-    @Override
-    public Task addTask(Task task) {
-        Task t = super.addTask(task);
-        save();
-        return t;
+    private void addTaskWithoutSaving(Task task) {
+        super.validateAndSetId(task);
+        super.tasks.put(task.getId(), task);
     }
 
-    @Override
-    public SubTask addSubTask(SubTask subTask) {
-        SubTask st = super.addSubTask(subTask);
-        save();
-        return st;
+    private void addEpicWithoutSaving(Epic epic) {
+        super.validateAndSetId(epic);
+        super.epics.put(epic.getId(), epic);
     }
 
-    @Override
-    public Epic addEpic(Epic epic) {
-        Epic e = super.addEpic(epic);
-        save();
-        return e;
-    }
+    private void addSubTaskWithoutSaving(SubTask subTask) {
+        super.validateAndSetId(subTask);
+        super.subTasks.put(subTask.getId(), subTask);
 
-    @Override
-    public void deleteAllTasks() {
-        super.deleteAllTasks();
-        save();
-    }
+        Epic epic = super.epics.get(subTask.getEpicId());
+        if (epic != null) {
+            epic.addSubtask(subTask);
+            epic.updateStatus();
+        }
 
-    @Override
-    public void deleteTask(int id) {
-        super.deleteTask(id);
-        save();
-    }
-
-    @Override
-    public void deleteAllSubTask() {
-        super.deleteAllSubTask();
-        save();
-    }
-
-    @Override
-    public void deleteSubtask(int id) {
-        super.deleteSubtask(id);
-        save();
-    }
-
-    @Override
-    public void deleteAllEpic() {
-        super.deleteAllEpic();
-        save();
-    }
-
-    @Override
-    public void deleteEpic(int id) {
-        super.deleteEpic(id);
-        save();
-    }
-
-    @Override
-    public void updateTask(Task updatedTask) {
-        super.updateTask(updatedTask);
-        save();
-    }
-
-    @Override
-    public void updateEpic(Epic updatedEpic) {
-        super.updateEpic(updatedEpic);
-        save();
-    }
-
-    @Override
-    public void updateSubtask(SubTask updatedSubtask) {
-        super.updateSubtask(updatedSubtask);
-        save();
+        //==============================OVERRIDE METODS=====================================================================
     }
 }
