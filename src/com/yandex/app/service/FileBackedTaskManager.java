@@ -51,12 +51,19 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 if (line.isEmpty()) continue;
                 Task task = fromString(line);
 
-                if (task instanceof  Epic) {                //instanceof- для проверки экземпляра класса/наследника
+                String[] fields = line.split(",");
+                TaskType type = TaskType.valueOf(fields[1]);
+
+                switch (type){
+                    case EPIC:
                     manager.addEpic((Epic) task);
-                }  else if (task instanceof SubTask) {
+                    break;
+                    case SUBTASK:
                     manager.addSubTask((SubTask) task);
-                } else {
+                    break;
+                    case TASK:
                     manager.addTask(task);
+                    break;
                 }
             }
         } catch (IOException e) {
