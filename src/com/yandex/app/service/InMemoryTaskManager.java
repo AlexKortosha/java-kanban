@@ -8,9 +8,9 @@ import java.util.*;
 
 
 public class InMemoryTaskManager implements TaskManager {
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, SubTask> subTasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, SubTask> subTasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
 
     private final HistoryManager historyManager;
 
@@ -232,7 +232,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     //вспомогательный методы============================================================================================
-    private void validateAndSetId(Task task) {
+    protected void validateAndSetId(Task task) {
 
         if (task == null) {
             System.out.println("Задача не может быть = null");
