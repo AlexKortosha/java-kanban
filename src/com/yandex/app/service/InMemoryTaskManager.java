@@ -252,5 +252,29 @@ public class InMemoryTaskManager implements TaskManager {
             epic.updateStatus();
         }
     }
+    //МЕТОДЫ РОДИТЕЛИ===================================================================================================
 
+    protected Task addTaskParental(Task task) {
+        validateAndSetId(task);
+        tasks.put(task.getId(), task);
+        return task;
+    }
+
+    protected Epic addEpicParental(Epic epic) {
+        validateAndSetId(epic);
+        epics.put(epic.getId(), epic);
+        return  epic;
+    }
+
+    protected SubTask addSubTaskParental(SubTask subTask) {
+        validateAndSetId(subTask);
+        Epic epic = epics.get(subTask.getEpicId());
+        if (epic == null) {
+            throw new IllegalArgumentException("Такой epic не найден: " + subTask.getEpicId());
+        }
+        subTasks.put(subTask.getEpicId(), subTask);
+        epic.addSubtask(subTask);
+        epic.updateStatus();
+        return subTask;
+    }
 }
