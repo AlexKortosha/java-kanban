@@ -103,23 +103,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     private void addTaskWithoutSaving(Task task) {
-        super.validateAndSetId(task);
-        super.tasks.put(task.getId(), task);
+       super.addTask(task);
     }
 
     private void addEpicWithoutSaving(Epic epic) {
-        super.validateAndSetId(epic);
-        super.epics.put(epic.getId(), epic);
+        super.addEpic(epic);
     }
 
     private void addSubTaskWithoutSaving(SubTask subTask) {
-        super.validateAndSetId(subTask);
-        super.subTasks.put(subTask.getId(), subTask);
-
-        Epic epic = super.epics.get(subTask.getEpicId());
-        if (epic != null) {
-            epic.addSubtask(subTask);
-            epic.updateStatus();
-        }
+        super.addSubTask(subTask);
     }
 }
