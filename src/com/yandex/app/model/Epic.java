@@ -53,6 +53,41 @@ public class Epic extends Task {
         }
     }
 
+    public void updateTime(List<SubTask> subTasks) {
+        if (subTasks == null || subTasks.isEmpty()) {
+            this.startTime = null;
+            this.duration = null;
+            this.endTime = null;
+        }
+
+        LocalDateTime newStartTime = subTasks.stream()
+                .map(SubTask::getStartTime)
+                .filter(Objects::nonNull)
+                .min(Comparator.naturalOrder())
+                .orElse(null);
+
+        LocalDateTime newEndTime = subTasks.stream()
+                .map(SubTask::getEndTime)
+                .filter(Objects::nonNull)
+                .max(Comparator.naturalOrder())
+                .orElse(null);
+
+        Duration newDuration = subTasks.stream()
+                .map(SubTask::getDuration)
+                .filter(Objects::nonNull)
+                .reduce(Duration.ZERO, Duration::plus);
+
+        this.startTime = newStartTime;
+        this.duration = newDuration;
+        this.endTime = newEndTime;
+
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
     @Override
     public String toString() {
         return id + ","
