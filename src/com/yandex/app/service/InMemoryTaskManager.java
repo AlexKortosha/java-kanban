@@ -284,19 +284,16 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Task> getPrioritizedTasks() {
-        List<Task> allTasks = new ArrayList<>();
-        allTasks.addAll(tasks.values());
-        allTasks.addAll(epics.values());
-        allTasks.addAll(subTasks.values());
+    public TreeSet<Task> getPrioritizedTasks() {
+        Comparator<Task> comparator = Comparator
+                .comparing(Task::getStartTime, Comparator.nullsLast(Comparator.naturalOrder()))
+                .thenComparing(Task::getId);
 
-        return allTasks.stream()
-                .filter(task -> task.getStartTime() != null)
-                .sorted(Comparator.comparing(
-                        Task::getStartTime,
-                        Comparator.nullsLast(Comparator.naturalOrder())
-                ))
-                .collect(Collectors.toList());
+        TreeSet<Task> prioritizedTasks = new TreeSet<>(comparator);
+        prioritizedTasks.addAll(tasks.values());
+        prioritizedTasks.addAll(subTasks.values());
+
+        return prioritizedTasks;
     }
 
     private boolean hasTimeConflict(Task newTask) {
