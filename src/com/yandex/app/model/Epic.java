@@ -4,13 +4,18 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.List;
 
 public class Epic extends Task {
 
     private final HashMap<Integer, SubTask> subtasks = new HashMap<>();
+    private LocalDateTime endTime;
 
     public Epic(int id, String name, String description) {
         super(id, name, description);
+        this.startTime = null;
+        this.duration = null;
+        this.endTime = null;
     }
 
     public HashMap<Integer, SubTask> getSubTaskIds() {
