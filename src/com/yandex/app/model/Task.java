@@ -1,12 +1,17 @@
 package com.yandex.app.model;
 
 import java.util.Objects;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class Task {
     protected int id;
     protected String name;
     protected String description;
     protected TaskStatus status;
+
+    protected Duration duration;
+    protected LocalDateTime startTime;
 
     public Task(int id, String name, String description) {
         this.id = id;
@@ -16,6 +21,26 @@ public class Task {
     }
 
     //геттеры и сеттеры
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime != null && duration != null) {
+            return  startTime.plus(duration);
+        }
+        return null;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -54,7 +79,11 @@ public class Task {
                 + TaskType.TASK + ","
                 + name + ","
                 + status + ","
-                + description + ",";
+                + description + ","
+                + duration + ","
+                + getEndTime() + ","
+                + startTime;
+
     }
 
     @Override

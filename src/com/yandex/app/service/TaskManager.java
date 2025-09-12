@@ -52,4 +52,6 @@ public interface TaskManager {
     // NEW FUNCTIONALITY================================================================================================
 
     List<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
 }

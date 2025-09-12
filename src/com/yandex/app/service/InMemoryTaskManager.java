@@ -5,6 +5,7 @@ import com.yandex.app.model.Epic;
 import com.yandex.app.model.SubTask;
 
 import java.util.*;
+import java.time.Duration;
 
 
 public class InMemoryTaskManager implements TaskManager {
@@ -81,11 +82,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<SubTask> getSubTasksByEpicId(int epicId) {
-        Epic epic = epics.get(epicId);
-        if (epic == null) {
-            System.out.println("Эпик и индификатором " + epicId + " не найден");
-        }
-        return new ArrayList<>(epic.getSubTaskIds().values());
+       return Optional.ofNullable(epics.get(epicId))
+               .map(e -> e.getSubTaskIds().values().stream().toList())
+               .orElseGet(() -> {
+                   System.out.println("Эпик с идентификатором " + epicId + " не найден");
+                   return List.of();
+               });
     }
 
     @Override
@@ -203,10 +205,10 @@ public class InMemoryTaskManager implements TaskManager {
 
             historyManager.remove(id);
 
-            for (Integer subtaskId : epic.getSubTaskIds().keySet()) {
-                subTasks.remove(subtaskId);
-                historyManager.remove(subtaskId);
-            }
+           epic.getSubTaskIds().keySet().forEach(subtaskId -> {
+               subTasks.remove(subtaskId);
+               historyManager.remove(subtaskId);
+           });
         }
     }
 
@@ -224,6 +226,14 @@ public class InMemoryTaskManager implements TaskManager {
         historyManager.add(epic);
         return epic;
     }
+
+    private void updateEpicTime(int epicId) {
+        Epic epic = epics.get(epicId);
+        if (epic == null) return;
+
+        List<SubTask> epicSubTasks = getSubTasksByEpicId(epicId);
+        epic.updateTime(epicSubTasks);
+    }
     //NEW FUNCTIONALITY=================================================================================================
 
     @Override
@@ -237,7 +247,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (task == null) {
             System.out.println("Задача не может быть = null");
         }
-        ;
+        
 
         if (task.getId() == 0) {
             task.setId(newId++);
@@ -252,29 +262,40 @@ public class InMemoryTaskManager implements TaskManager {
             epic.updateStatus();
         }
     }
-    //МЕТОДЫ РОДИТЕЛИ===================================================================================================
 
-    protected Task addTaskParental(Task task) {
-        validateAndSetId(task);
-        tasks.put(task.getId(), task);
-        return task;
+    @Override
+    public List<Task> getPrioritizedTasks() {
+        List<Task> allTasks = new ArrayList<>();
+        allTasks.addAll(tasks.values());
+        allTasks.addAll(epics.values());
+        allTasks.addAll(subTasks.values());
+
+        return allTasks.stream()
+                .filter(task -> task.getStartTime() != null)
+                .sorted(Comparator.comparing(
+                        Task::getStartTime,
+                        Comparator.nullsLast(Comparator.naturalOrder())
+                ))
+                .collect(Collectors.toList());
     }
 
-    protected Epic addEpicParental(Epic epic) {
-        validateAndSetId(epic);
-        epics.put(epic.getId(), epic);
-        return  epic;
-    }
-
-    protected SubTask addSubTaskParental(SubTask subTask) {
-        validateAndSetId(subTask);
-        Epic epic = epics.get(subTask.getEpicId());
-        if (epic == null) {
-            throw new IllegalArgumentException("Такой epic не найден: " + subTask.getEpicId());
+    private boolean hasTimeConflict(Task newTask) {
+        if (newTask.getStartTime() == null || newTask.getEndTime() == null) {
+            return false;
         }
-        subTasks.put(subTask.getEpicId(), subTask);
-        epic.addSubtask(subTask);
-        epic.updateStatus();
-        return subTask;
+
+        for (Task existing : getPrioritizedTasks()) {
+            if (existing.getId() == newTask.getId()) continue;
+
+            if (existing.getStartTime() != null && existing.getEndTime() != null) {
+                boolean overlap = !(newTask.getEndTime().isBefore(existing.getStartTime())
+                                 || newTask.getStartTime().isAfter(existing.getEndTime()));
+                if (overlap) {
+                    return  true;
+                }
+            }
+        }
+        return false;
+
     }
 }

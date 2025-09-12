@@ -12,7 +12,7 @@ import java.io.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
 
-    private static final String HEADER_CSV = "id,type,name,status,description,epic";
+    private static final String HEADER_CSV = "id,type,name,status,description,duration,startTime,endTime,epic";
 
     private final File file;
 
@@ -27,18 +27,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             writer.write(HEADER_CSV);
             writer.newLine();
 
-            for (Task task : getAllTasks()) {
-                writer.write(task.toString());
-                writer.newLine();
-            }
-            for (Epic epic : getAllEpics()) {
-                writer.write(epic.toString());
-                writer.newLine();
-            }
-            for (SubTask subTask : getAllSubtasks()) {
-                writer.write(subTask.toString());
-                writer.newLine();
-            }
+           for (Task task: getPrioritizedTasks()) {
+               writer.write(task.toString() + '\n');
+           }
         } catch (IOException e) {
             throw new ManagerSaveException("При сохранении файла возникла ошибка: " + file, e);
         }
