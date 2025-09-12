@@ -94,6 +94,9 @@ public class Epic extends Task {
                 + TaskType.EPIC + ","
                 + getName() + ","
                 + getStatus() + ","
-                + getDescription() + ",";
+                + getDescription() + ","
+                + startTime + ","
+                + duration + ","
+                + getEndTime();
     }
 }
