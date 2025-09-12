@@ -18,6 +18,7 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = TaskStatus.NEW;
+        this.startTime = LocalDateTime.now();
     }
 
     //геттеры и сеттеры
