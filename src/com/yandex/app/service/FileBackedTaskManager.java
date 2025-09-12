@@ -7,6 +7,9 @@ import com.yandex.app.model.SubTask;
 import com.yandex.app.model.TaskType;
 import com.yandex.app.model.TaskStatus;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 
 import java.io.*;
 
@@ -75,20 +78,32 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         TaskStatus status = TaskStatus.valueOf(fields[3]);
         String description = fields[4];
 
+        Duration duration = fields[5].isEmpty() ? null : Duration.parse(fields[5]);
+        LocalDateTime startTime = fields[6].isEmpty() ? null : LocalDateTime.parse(fields[6]);
+
         switch (type) {
             case TASK:
                 Task task = new Task(id, name, description);
                 task.setStatus(status);
+                task.setDuration(duration);
+                if (startTime != null) task.setStartTime(startTime);
                 return task;
+
             case EPIC:
                 Epic epic = new Epic(id, name, description);
                 epic.setStatus(status);
+                epic.setDuration(duration);
+                if (startTime != null) epic.setStartTime(startTime);
                 return epic;
+
             case SUBTASK:
-                int epicId = Integer.parseInt(fields[5]);
+                int epicId = Integer.parseInt(fields[8]); // эпик у субтаска хранится в 9-й колонке
                 SubTask subTask = new SubTask(id, name, description, epicId);
                 subTask.setStatus(status);
+                subTask.setDuration(duration);
+                if (startTime != null) subTask.setStartTime(startTime);
                 return subTask;
+
             default:
                 throw new IllegalArgumentException("Неизвестный тип задачи: " + type);
         }

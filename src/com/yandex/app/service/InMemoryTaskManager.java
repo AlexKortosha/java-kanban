@@ -3,6 +3,7 @@ package com.yandex.app.service;
 import com.yandex.app.model.Task;
 import com.yandex.app.model.Epic;
 import com.yandex.app.model.SubTask;
+import com.yandex.app.model.TaskStatus;
 
 import java.util.*;
 import java.time.Duration;
@@ -32,19 +33,22 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task addTask(Task task) {
-        if (task == null) {
-            return null;
-        }
+        if (task == null) return null;
 
+        // Присвоение id перед созданием копии
+        validateAndSetId(task);
+
+        // Создаём новую задачу и копируем все поля
         Task taskToAdd = new Task(task.getId(), task.getName(), task.getDescription());
         taskToAdd.setStatus(task.getStatus());
+        taskToAdd.setStartTime(task.getStartTime());
+        taskToAdd.setDuration(task.getDuration());
 
-        validateAndSetId(taskToAdd);
-
-        if (hasTimeConflict(task)) {
+        if (hasTimeConflict(taskToAdd)) {
             System.out.println("Ошибка: задача пересекается по времени с другой.");
             return null;
         }
+
         tasks.put(taskToAdd.getId(), taskToAdd);
         return taskToAdd;
     }
@@ -112,12 +116,12 @@ public class InMemoryTaskManager implements TaskManager {
         }
         if (subTasks.containsKey(subTask.getId())) return null;
 
+        validateAndSetId(subTask);
+
         SubTask subTaskToAdd = new SubTask(subTask.getId(), subTask.getName(), subTask.getDescription(), subTask.getEpicId());
         subTaskToAdd.setStatus(subTask.getStatus());
         subTaskToAdd.setStartTime(subTask.getStartTime());
         subTaskToAdd.setDuration(subTask.getDuration());
-
-        validateAndSetId(subTaskToAdd);
 
         if (hasTimeConflict(subTaskToAdd)) {
             System.out.println("Ошибка: подзадача пересекается по времени с другой.");
@@ -125,9 +129,11 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         subTasks.put(subTaskToAdd.getId(), subTaskToAdd);
-        epics.get(subTaskToAdd.getEpicId()).addSubtask(subTaskToAdd);
-        updateEpicStatus(subTaskToAdd.getEpicId());
-        updateEpicTime(subTaskToAdd.getEpicId());
+        Epic epic = epics.get(subTaskToAdd.getEpicId());
+        epic.addSubtask(subTaskToAdd);
+
+        updateEpicStatus(epic.getId());
+        updateEpicTime(epic.getId());
 
         return subTaskToAdd;
     }
@@ -178,7 +184,7 @@ public class InMemoryTaskManager implements TaskManager {
             Epic epic = epics.get(updatedSubtask.getEpicId());
             if (epic != null) {
                 epic.getSubTaskIds().put(id, updatedSubtask);
-                epic.updateStatus();
+                updateEpicStatus(epic.getId());
                 updateEpicTime(epic.getId());
             }
             return updatedSubtask;
@@ -310,10 +316,15 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public TreeSet<Task> getPrioritizedTasks() {
         Comparator<Task> comparator = Comparator
-                .comparing(Task::getStartTime, Comparator.nullsLast(Comparator.naturalOrder()))
+                .comparing(
+                        Task::getStartTime,
+                        Comparator.nullsLast(Comparator.naturalOrder())
+                )
                 .thenComparing(Task::getId);
 
         TreeSet<Task> prioritizedTasks = new TreeSet<>(comparator);
+
+        // Добавляем все задачи и подзадачи
         prioritizedTasks.addAll(tasks.values());
         prioritizedTasks.addAll(subTasks.values());
 

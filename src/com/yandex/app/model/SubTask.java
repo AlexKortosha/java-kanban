@@ -26,6 +26,7 @@ public class SubTask extends Task {
                 + getDescription() + ","
                 + duration + ","
                 + startTime + ","
+                + getEndTime() + ","
                 + epicId;
 
 
