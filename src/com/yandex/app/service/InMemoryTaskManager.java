@@ -104,33 +104,32 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public SubTask addSubTask(SubTask subTask) {
-        if (subTask == null) {
-            return null;
-        }
-
-        if (subTask.getId() == subTask.getEpicId()) {
-            return null;
-        }
-
-
+        if (subTask == null) return null;
+        if (subTask.getId() == subTask.getEpicId()) return null;
         if (!epics.containsKey(subTask.getEpicId())) {
             System.out.println("Epic not found");
             return null;
         }
+        if (subTasks.containsKey(subTask.getId())) return null;
 
-        if (epics.containsKey(subTask.getId())) {
-            return null;
-        }
+        SubTask subTaskToAdd = new SubTask(subTask.getId(), subTask.getName(), subTask.getDescription(), subTask.getEpicId());
+        subTaskToAdd.setStatus(subTask.getStatus());
+        subTaskToAdd.setStartTime(subTask.getStartTime());
+        subTaskToAdd.setDuration(subTask.getDuration());
 
-        validateAndSetId(subTask);
-        if (hasTimeConflict(subTask)) {
+        validateAndSetId(subTaskToAdd);
+
+        if (hasTimeConflict(subTaskToAdd)) {
             System.out.println("Ошибка: подзадача пересекается по времени с другой.");
             return null;
         }
-        subTasks.put(subTask.getId(), subTask);
-        epics.get(subTask.getEpicId()).addSubtask(subTask);
-        updateEpicStatus(subTask.getEpicId());
-        return subTask;
+
+        subTasks.put(subTaskToAdd.getId(), subTaskToAdd);
+        epics.get(subTaskToAdd.getEpicId()).addSubtask(subTaskToAdd);
+        updateEpicStatus(subTaskToAdd.getEpicId());
+        updateEpicTime(subTaskToAdd.getEpicId());
+
+        return subTaskToAdd;
     }
 
     @Override
