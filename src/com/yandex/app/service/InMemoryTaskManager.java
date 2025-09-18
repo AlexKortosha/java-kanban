@@ -261,7 +261,9 @@ public class InMemoryTaskManager implements TaskManager {
 
             for (Integer subId : epic.getSubTaskIds().keySet()) {
                 SubTask sub = subTasks.remove(subId);
-                if (sub != null) prioritizedTasks.remove(sub);
+                if (sub != null) {
+                    prioritizedTasks.remove(sub);
+                }
                 historyManager.remove(subId);
             }
         }
@@ -333,7 +335,7 @@ public class InMemoryTaskManager implements TaskManager {
             epic.setStatus(TaskStatus.DONE);
             return;
         }
-        
+
         epic.setStatus(TaskStatus.IN_PROGRESS);
     }
 
