@@ -333,8 +333,7 @@ public class InMemoryTaskManager implements TaskManager {
             epic.setStatus(TaskStatus.DONE);
             return;
         }
-
-        // если есть хотя бы один IN_PROGRESS или смесь NEW + DONE → IN_PROGRESS
+        
         epic.setStatus(TaskStatus.IN_PROGRESS);
     }
 
