@@ -1,6 +1,5 @@
 package com.yandex.app.httpserver.handler;
 
-import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
 import com.yandex.app.model.Task;
 import com.yandex.app.service.TaskManager;
@@ -59,8 +58,10 @@ public class TaskHandler extends BaseHttpHandler {
 
         if (task.getId() == 0) {
             taskManager.addTask(task);
+            exchange.sendResponseHeaders(201, 0);
         } else {
             taskManager.updateTask(task);
+            exchange.sendResponseHeaders(200, 0);
         }
         sendEmpty(exchange);
     }

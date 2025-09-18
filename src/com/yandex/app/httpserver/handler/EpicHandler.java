@@ -1,6 +1,5 @@
 package com.yandex.app.httpserver.handler;
 
-import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
 import com.yandex.app.service.TaskManager;
 
