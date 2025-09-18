@@ -350,7 +350,9 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         for (Task existing : getPrioritizedTasks()) {
-            if (existing.getId() == newTask.getId()) continue;
+            if (existing.getId() == newTask.getId()) {
+                continue;
+            }
 
             if (existing.getStartTime() != null && existing.getEndTime() != null) {
                 boolean overlap = !(newTask.getEndTime().isBefore(existing.getStartTime())
