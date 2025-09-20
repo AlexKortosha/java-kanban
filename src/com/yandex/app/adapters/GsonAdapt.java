@@ -4,8 +4,6 @@ import com.google.gson.GsonBuilder;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import com.yandex.app.model.Task;
-
 
 public class GsonAdapt {
 
