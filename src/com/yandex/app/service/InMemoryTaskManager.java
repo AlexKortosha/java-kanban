@@ -261,7 +261,9 @@ public class InMemoryTaskManager implements TaskManager {
 
             for (Integer subId : epic.getSubTaskIds().keySet()) {
                 SubTask sub = subTasks.remove(subId);
-                if (sub != null) prioritizedTasks.remove(sub);
+                if (sub != null) {
+                    prioritizedTasks.remove(sub);
+                }
                 historyManager.remove(subId);
             }
         }
@@ -334,7 +336,6 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        // если есть хотя бы один IN_PROGRESS или смесь NEW + DONE → IN_PROGRESS
         epic.setStatus(TaskStatus.IN_PROGRESS);
     }
 
@@ -349,7 +350,9 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         for (Task existing : getPrioritizedTasks()) {
-            if (existing.getId() == newTask.getId()) continue;
+            if (existing.getId() == newTask.getId()) {
+                continue;
+            }
 
             if (existing.getStartTime() != null && existing.getEndTime() != null) {
                 boolean overlap = !(newTask.getEndTime().isBefore(existing.getStartTime())
