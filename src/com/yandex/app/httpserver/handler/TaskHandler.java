@@ -58,12 +58,11 @@ public class TaskHandler extends BaseHttpHandler {
 
         if (task.getId() == 0) {
             taskManager.addTask(task);
-            exchange.sendResponseHeaders(201, 0);
+            sendEmpty(exchange, 201);
         } else {
             taskManager.updateTask(task);
-            exchange.sendResponseHeaders(200, 0);
+            sendEmpty(exchange, 200);
         }
-        sendEmpty(exchange);
     }
 
     private void handleDelete(HttpExchange exchange) throws IOException {
@@ -74,6 +73,6 @@ public class TaskHandler extends BaseHttpHandler {
         } else {
             taskManager.deleteAllTasks();
         }
-        sendEmpty(exchange);
+        sendEmpty(exchange, 200);
     }
 }

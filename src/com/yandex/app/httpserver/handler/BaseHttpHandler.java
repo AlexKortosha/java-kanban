@@ -8,13 +8,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+import com.yandex.app.adapters.GsonAdapt;
 import com.yandex.app.service.TaskManager;
 import com.yandex.app.httpserver.HttpMethod;
 
 public abstract class BaseHttpHandler implements HttpHandler {
 
     protected final TaskManager taskManager;
-    protected final Gson gson = new Gson();
+    protected final Gson gson = GsonAdapt.getGson();
 
     public BaseHttpHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
@@ -40,9 +41,9 @@ public abstract class BaseHttpHandler implements HttpHandler {
         sendText(exchange, reply, 200);
     }
 
-    protected void sendEmpty(HttpExchange exchange) throws IOException {
+    protected void sendEmpty(HttpExchange exchange, int statusCode) throws IOException {
         exchange.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
-        exchange.sendResponseHeaders(201, 0);
+        exchange.sendResponseHeaders(statusCode, 0);
         exchange.close();
     }
 

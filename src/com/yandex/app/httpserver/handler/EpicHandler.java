@@ -59,7 +59,7 @@ public class EpicHandler extends BaseHttpHandler {
         } else {
             taskManager.updateEpic(epic);
         }
-        sendEmpty(exchange);
+        sendEmpty(exchange, 200);
     }
 
     private void handleDelete(HttpExchange exchange) throws IOException {
@@ -70,6 +70,6 @@ public class EpicHandler extends BaseHttpHandler {
         } else {
             taskManager.deleteAllEpic();
         }
-        sendEmpty(exchange);
+        sendEmpty(exchange, 200);
     }
 }

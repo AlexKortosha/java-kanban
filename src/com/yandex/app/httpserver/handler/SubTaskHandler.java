@@ -61,7 +61,7 @@ public class SubTaskHandler extends BaseHttpHandler {
         } else {
             taskManager.updateSubtask(subTask);
         }
-        sendEmpty(exchange);
+        sendEmpty(exchange, 200);
     }
 
     private void handleDelete(HttpExchange exchange) throws IOException {
@@ -72,6 +72,6 @@ public class SubTaskHandler extends BaseHttpHandler {
         } else {
             taskManager.deleteAllSubTask();
         }
-        sendEmpty(exchange);
+        sendEmpty(exchange, 200);
     }
 }
