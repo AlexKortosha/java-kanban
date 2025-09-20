@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class LocalDateTimeAdapt extends TypeAdapter<LocalDateTime> {
-    private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     @Override
     public void write(JsonWriter out, LocalDateTime value) throws IOException {
@@ -18,13 +18,13 @@ public class LocalDateTimeAdapt extends TypeAdapter<LocalDateTime> {
             out.nullValue();
             return;
         }
-        out.value(value.truncatedTo(ChronoUnit.SECONDS).format(FORMATTER));
+        out.value(value.truncatedTo(ChronoUnit.SECONDS).format(formatter));
     }
 
     @Override
     public LocalDateTime read(JsonReader in) throws IOException {
         String str = in.nextString();
-        return LocalDateTime.parse(str, FORMATTER);
+        return LocalDateTime.parse(str, formatter);
     }
 
 }
